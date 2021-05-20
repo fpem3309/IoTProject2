@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.ms.mybatis.NoticeBoardMapper">
+    <select id="noticeCountPage" resultType="Integer">
+        SELECT COUNT(msnb_no)
+        FROM ms_notice_board
+    </select>
+    <select id="noticeBoardList" resultType="NoticeBoardVO"
+        parameterType="PagingVO">
+        SELECT *
+        FROM
+        (
+            SELECT ROWNUM rn, A.*
+            FROM
+            (
+                SELECT a.*, b.msm_name
+                FROM ms_notice_board a, ms_member b
+                WHERE a.msm_no = b.msm_no
+                ORDER BY msnb_no DESC
+            ) A
+        )
+        WHERE rn BETWEEN #{start} AND #{end}
+    </select>
+
+    <insert id="noticeBoardInsert" parameterType="NoticeBoardVO">
+        INSERT INTO ms_notice_board
+        VALUES
+        (
+            msnb_no_seq.nextval,
+            #{msnb_subject},
+            #{msnb_content},
+            #{msm_no},
+            SYSDATE,
+            0
+        )
+    </insert>
+
+    <delete id="noticeBoardDelete" parameterType="Integer">
+        DELETE FROM 
+        ms_notice_board 
+        WHERE 
+        msnb_no=#{msnb_no}
+    </delete>
+
+    <select id="noticeBoardContent" parameterType="Integer" resultType="NoticeBoardVO">
+        SELECT * FROM ms_notice_board 
+        WHERE 
+        msnb_no=#{msnb_no}
+    </select>
+
+    <update id="noticeBoardUpdate" parameterType="NoticeBoardVO">
+        UPDATE ms_notice_board
+        SET
+        msnb_subject=#{msnb_subject},
+        msnb_content=#{msnb_content}
+        WHERE
+        msnb_no=#{msnb_no}
+    </update>
+
+    <update id="boardHit" parameterType="Integer">
+        UPDATE ms_notice_board
+        SET
+        msnb_hit = msnb_hit+1
+        WHERE 
+        msnb_no = #{msbn_no}
+    </update>
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.ms.mybatis.MemberMapper">
+    <select id="countPage" resultType="Integer">
+        SELECT COUNT(msm_no) FROM ms_member
+    </select>
+    <select id="memberList" resultType="MemberVO" parameterType="PagingVO">
+        SELECT *
+        FROM
+        (
+            SELECT ROWNUM rn, A.*
+            FROM
+            (
+                SELECT * FROM ms_member 
+                ORDER BY msm_no DESC
+            ) A
+        )
+        WHERE 
+        rn BETWEEN #{start} AND #{end}
+    </select>
+    <insert id="memberInsert" parameterType="MemberVO">
+         INSERT INTO ms_member 
+         VALUES 
+         (
+             msm_no_seq.nextval,
+             #{msm_id}, 
+             #{msm_password},
+             #{msm_name},
+             #{msm_phone},
+             #{msm_email},
+             #{msm_level_no},
+             #{msm_point},
+             #{msm_car},
+             #{msm_denied}
+         )
+    </insert>
+    <delete id="memberDelete" parameterType="Integer">
+         DELETE FROM ms_member 
+         WHERE 
+         msm_no=#{msm_no}
+    </delete>
+    <select id="memberContent" resultType="MemberVO" parameterType="Integer">
+        SELECT * FROM ms_member 
+        WHERE
+        msm_no=#{msm_no}
+    </select>
+    <update id="memberUpdate" parameterType="MemberVO">
+         UPDATE ms_member 
+         SET 
+         msm_phone=#{msm_phone}, 
+         msm_email=#{msm_email},
+         msm_point=#{msm_point}
+         WHERE 
+         msm_no=#{msm_no}
+    </update>
+    <select id="loginOk" resultType="MemberVO" parameterType="MemberVO">
+        SELECT * FROM ms_member 
+        WHERE
+        msm_id=#{msm_id} 
+        AND msm_password=#{msm_password}
+    </select>
+</mapper>

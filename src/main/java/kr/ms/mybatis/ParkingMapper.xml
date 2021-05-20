@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.ms.mybatis.ParkingMapper">
+    <select id="parkingList" resultType="ParkingVO">
+        SELECT a.*, b.msm_name
+        FROM ms_parking a, ms_member b
+        WHERE
+        a.msm_no = b.msm_no
+        AND a.msp_type=1
+        ORDER BY msp_no DESC
+    </select>
+
+    <select id="parkingList2" resultType="ParkingVO">
+        SELECT a.*, b.msm_name
+        FROM ms_parking a, ms_member b
+        WHERE
+        a.msm_no = b.msm_no
+        AND a.msp_type=2
+        ORDER BY msp_no DESC
+    </select>
+
+    <insert id="parkingInsert" parameterType="ParkingVO">
+        INSERT INTO ms_parking
+        VALUES
+        (
+            msp_no_seq.nextval,
+            #{msm_no},
+            #{msp_location},
+            #{msp_num},
+            #{msp_type},
+            SYSDATE
+        )
+    </insert>
+
+    <select id="mspNo" resultType="ParkingVO"
+        parameterType="Integer">
+        SELECT *
+        FROM ms_parking
+        WHERE
+        msp_no = #{msp_no}
+    </select>
+
+    <update id="choiceUpdate" parameterType="ParkingVO">
+        UPDATE ms_parking
+        SET msp_num = msp_num -1
+        WHERE
+        msp_no = #{msp_no}
+        AND msp_type = #{msp_type}
+    </update>
+</mapper>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias type="kr.ms.model.MemberVO" alias="MemberVO"/>
+        <typeAlias type="kr.ms.model.PagingVO" alias="PagingVO"/>
+        <typeAlias type="kr.ms.model.ParkingVO" alias="ParkingVO"/>
+        <typeAlias type="kr.ms.model.NoticeBoardVO" alias="NoticeBoardVO"/>
+        <typeAlias type="kr.ms.model.ServChoiceVO" alias="ServChoiceVO"/>
+        <typeAlias type="kr.ms.model.ArduinoVO" alias="ArduinoVO"/>
+    </typeAliases>
+</configuration>

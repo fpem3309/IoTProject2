@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.ms.mybatis.ReservMapper">
+    <insert id="servInsert" parameterType="ServChoiceVO">
+        INSERT INTO ms_reserv
+        VALUES
+        (
+            msr_no_seq.nextval,
+            #{msp_no},
+            #{msr_num},
+            SYSDATE,
+            #{msr_price},
+            #{msm_no},
+            0,
+            #{msp_type},
+            SYSDATE,
+            SYSDATE,
+            0
+        )
+    </insert>
+    <select id="servChoiceList" parameterType="Integer" resultType="ServChoiceVO">
+        SELECT a.msp_location, a.msp_type, b.msm_name, c.*
+        FROM ms_parking a, ms_member b, ms_reserv c
+        WHERE
+        a.msp_no = c.msp_no
+        AND b.msm_no = c.msm_no
+        AND b.msm_no = #{msm_no}
+        AND a.msp_type = 1
+    </select>
+
+    <select id="servChoiceList2" resultType="ServChoiceVO" parameterType="Integer">
+        SELECT a.msp_location, a.msp_type, b.msm_name, c.*
+        FROM ms_parking a, ms_member b, ms_reserv c
+        WHERE
+        a.msp_no = c.msp_no
+        AND b.msm_no = c.msm_no
+        AND b.msm_no = #{msm_no}
+        AND a.msp_type=2
+    </select>
+
+    <select id="servChoiceList3" parameterType="Integer" resultType="ServChoiceVO">
+        SELECT a.msp_location, a.msp_type, b.msm_name, c.*
+        FROM ms_parking a, ms_member b, ms_reserv c
+        WHERE
+        a.msp_no = c.msp_no
+        AND b.msm_no = c.msm_no
+        AND a.msp_type = 1
+    </select>
+
+    <select id="servChoiceList4" resultType="ServChoiceVO" parameterType="Integer">
+        SELECT a.msp_location, a.msp_type, b.msm_name, c.*
+        FROM ms_parking a, ms_member b, ms_reserv c
+        WHERE
+        a.msp_no = c.msp_no
+        AND b.msm_no = c.msm_no
+        AND a.msp_type=2
+    </select>
+
+    <update id="parkOpen" parameterType="ServChoiceVO">
+        UPDATE ms_reserv
+        SET
+        msr_use = 1
+        WHERE
+        msr_no = #{msr_no}
+        AND msm_no = #{msm_no}
+    </update>
+
+    <update id="parkClose" parameterType="ServChoiceVO">
+        UPDATE ms_reserv
+        SET
+        msr_use = 0
+        WHERE
+        msr_no = #{msr_no}
+        AND msm_no = #{msm_no}
+    </update>
+
+    <delete id="servChoiceDelete" parameterType="Integer">
+        DELETE FROM ms_reserv 
+        WHERE 
+        msr_no=#{msr_no}
+    </delete>
+</mapper> 

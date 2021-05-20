@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.ms.mybatis.ArduinoMapper">
+    <select id="arduinoList" resultType="ArduinoVO" parameterType="Integer">
+        SELECT msr_no , msr_use 
+        FROM ms_reserv 
+        WHERE msr_no = 15 
+    </select>
+    <select id="arduinoList2" resultType="ArduinoVO" parameterType="Integer">
+        SELECT msr_no , msr_use 
+        FROM ms_reserv 
+        WHERE msr_no = 16
+    </select>
+</mapper> 
